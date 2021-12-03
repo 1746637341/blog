@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>个人博客</title>
+	{% load staticfiles %}
+	<link  rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %} "/>
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-static-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menu">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<p  class="navbar-brand">Blog</p>
+			</div>
+			<div class="navbar-menu collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-left">
+					{% for cat in categories %}
+							<li><a href="/?cat_id={{cat.id}}">{{cat.title}}</a></li>
+					{% endfor %}
+				</ul>
+				{% if request.user.is_authenticated %}
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#">欢迎您:	{{user.username}} </a></li>
+						<li><a href="{% url 'users:write'%}">发布博客</a></li>
+						<li><a href="{% url 'users:user'%}">个人中心</a></li>
+						<li><a href="{% url 'users:logout' %}">退出</a></li>
+					</ul>
+				{% else %}
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="{% url 'users:login' %}">登录</a></li>
+						<li><a href="{% url 'users:register' %}">注册</a></li>
+					</ul>
+				{% endif %}
+<!--				<form action="#" class="navbar-form navbar-right">-->
+<!--					<div class="form-group">-->
+<!--						<input type="text" class="form-control input-sm" id="search" name="search" placeholder="搜索" />-->
+<!--					</div>-->
+<!--					<div class="form-group">-->
+<!--						<button class="btn btn-default btn-sm">搜索</button>-->
+<!--					</div>-->
+<!--				</form>-->
+			</div>
+		</div>
+	</nav>
+
+{% block content %}
+
+{% endblock %}
+
+	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>
+

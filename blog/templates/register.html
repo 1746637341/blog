@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+				<div class="content center-block animated fadeInDown">
+					<div class="page-header h1">用户注册</div>
+					<form  method="post" onsubmit="return checkForm()">
+						{% csrf_token %}
+						<div class="form-group" id="usernameDiv" >
+							<label for="username" class="control-label">用户名</label>
+							<input type="text" class="form-control" id="username" name="username" placeholder="填写用户名" />
+							<label id="usernameMsg" class="control-label" style="font-size:10px;"></label>
+						</div>
+						<div class="form-group" id="mobileDiv">
+							<label for="mobile" class="control-label">手机号码</label>
+							<input type="text" class="form-control" id="mobile" name="mobile" placeholder="填写手机号码" />
+							<label id="mobileMsg" class="control-label" style="font-size:10px;"></label>
+						</div>
+						<div class="form-group" id="passwordDiv">
+							<label for="password" class="control-label">密码</label>
+							<input type="password" class="form-control" id="password" name="password" placeholder="请输入8-20位密码，密码是数字，字母" autocomplete="new-password"/>
+							<label id="passwordMsg" class="control-label" style="font-size:10px;"></label>
+						</div>
+						<div class="form-group" id="password2Div">
+							<label for="password2" class="control-label">确认密码</label>
+							<input type="password" class="form-control" id="password2" name="password2" placeholder="确认密码" />
+							<label id="password2Msg" class="control-label" style="font-size:10px;"></label>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-primary btn-block">注册</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<script>
+				<!--判断字段是否为空-->
+				function checkNotNull(nid){
+					var all =document.getElementById(nid);
+					var msg =document.getElementById(nid+"Msg");
+					var div =document.getElementById(nid+"Div");
+					var reg =/^s*$/;
+					if(reg.test(all.value)){
+						div.className +=" has-error";
+						msg.innerHTML="*该字段不能为空";
+						return false;
+					}else{
+						div.className ="form-group";
+						msg.innerHTML="";
+						return true;
+					}
+				}
+
+				<!--判断密码是否一致-->
+				function checkPwd(password,password2){
+					if(password && password2){
+						var password=document.getElementById("password").value;
+						var password2=document.getElementById("password2").value;
+						var msg=document.getElementById("password2Msg");
+						var div=document.getElementById("password2Div");
+						if(password==password2){
+							div.className ="form-group";
+							msg.innerHTML="";
+							return true;
+						}else{
+							div.className +=" has-error";
+							msg.innerHTML="*密码不一致";
+							return false;
+						}
+					}else{
+						return false;
+					}
+				}
+
+				function checkForm(){
+					var username =checkNotNull("username");
+					var mobile =checkNotNull("mobile");
+					var password =checkNotNull("password");
+					var password2 =checkNotNull("password2");
+					var pwd = checkPwd(password,password2);
+					return username && mobile && password && password2 && pwd;
+				}
+			</script>
+{% endblock %}

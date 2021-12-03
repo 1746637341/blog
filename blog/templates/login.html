@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+		<div class="content center-block animated fadeInDown">
+			<div class="page-header h1">用户登录</div>
+			<form method="post" onsubmit="return checkForm()">
+				{% csrf_token %}
+				<div class="form-group" id="usernameDiv">
+					<label for="username" class="control-label" >用户名</label>
+					<input type="text" class="form-control" id="username" name="username" placeholder="用户名" />
+					<label id="usernameMsg" class="control-label" style="font-size:10px;"></label>
+					<p class="control">还没有账号吗？<a href="{% url 'users:register' %}">点击注册</a></p>
+				</div>
+				<div class="form-group" id="passwordDiv">
+					<label for="password" class="control-label" >密码</label>
+					<input type="password" class="form-control" id="password" name="password" placeholder="请输入8-20位密码，密码是数字或者字母" autocomplete="new-password"/>
+					<label id="passwordMsg" class="control-label" style="font-size:10px;"></label>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">是否保持登录</label>
+					<label class="radio-inline"><input type="radio" name="remake" checked>是</label>
+					<label class="radio-inline"><input type="radio" name="remake">否</label>
+				</div>
+
+				<div class="form-group">
+					<button class="btn btn-primary btn-block">登录</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<script>
+				<!--判断字段是否为空-->
+				function checkNotNull(nid){
+					var all =document.getElementById(nid);
+					var msg =document.getElementById(nid+"Msg");
+					var div =document.getElementById(nid+"Div");
+					var reg =/^s*$/;
+					if(reg.test(all.value)){
+						div.className +=" has-error";
+						msg.innerHTML="*该字段不能为空";
+						return false;
+					}else{
+						div.className ="form-group";
+						msg.innerHTML="";
+						return true;
+					}
+				}
+
+				function checkForm(){
+					var username =checkNotNull("username");
+					var password =checkNotNull("password");
+					return username && password;
+				}
+			</script>
+{% endblock %}
